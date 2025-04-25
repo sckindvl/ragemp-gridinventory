@@ -1,0 +1,98 @@
+body {
+    user-select: none;
+    background-color: transparent;
+    overflow: hidden;
+    font-family: 'Quicksand', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+.inventory-wrapper {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+.inventory-header {
+    position: relative;
+    display: inline-block;
+    margin-top: 1.5em;
+}
+.inventory-container {
+    position: relative;
+    border: 3px solid #2e2e2e;
+    background: linear-gradient(135deg, #252525, #1f1f1f);
+    border-radius: 4px;
+    overflow: hidden;
+}
+.grid {
+    display: grid;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+.cell {
+    border: 1px solid rgba(80, 80, 80, 0.4);
+    box-sizing: border-box;
+    background: rgba(40, 40, 40, 0.2);
+}
+.item {
+    position: absolute;
+    background: rgba(74, 85, 104, 0.7);
+    border: 2px solid #A0AEC0;
+    border-radius: 4px;
+    cursor: move;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    font-weight: 500;
+    font-size: 14px;
+    z-index: 2;
+}
+.item img {
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    pointer-events: none;
+}
+.highlight-valid {
+    background: rgba(144, 238, 144, 0.3);
+    border-color: #90ee90;
+}
+.highlight-invalid {
+    background: rgba(255, 99, 71, 0.3);
+    border-color: #ff6347;
+}
+.inventory-title {
+    position: absolute;
+    bottom: 100%;
+    left: 5px;
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 500;
+    text-shadow: 1px 1px 2px #000;
+    padding: 2px 6px;
+    z-index: 20;
+    pointer-events: none;
+    margin-bottom: 2px;
+}
+.inventory-weight {
+    position: absolute;
+    bottom: 100%;
+    right: 5px;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 500;
+    text-shadow: 1px 1px 2px #000;
+    padding: 2px 6px;
+    z-index: 20;
+    pointer-events: none;
+    margin-bottom: 2px;
+}
