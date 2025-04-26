@@ -18,6 +18,7 @@ const closeInventory = () => {
     browser.destroy();
     browser = null;
     mp.gui.cursor.show(false, false);
+    mp.gui.chat.activate(true);
     setTimeout(() => blockMap = false, 250);
 };
 
