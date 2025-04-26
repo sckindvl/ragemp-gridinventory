@@ -38,6 +38,24 @@ namespace GridInventory.Inventory
                 if (!removed)
                     return;
 
+                DatabaseItem dbItem = ItemService.SearchItemByUuid(movingItem.ItemUuid);
+                if (dbItem == null)
+                {
+                    sourceInv.Items.Add(movingItem);
+                    return;
+                }
+
+                float destWeight = destInv.Items.Sum(i =>
+                {
+                    var otherDb = ItemService.SearchItemByUuid(i.ItemUuid);
+                    return otherDb?.Weight ?? 0;
+                });
+                if (destWeight + dbItem.Weight > destInv.MaxWeight)
+                {
+                    sourceInv.Items.Add(movingItem);
+                    return;
+                }
+
                 bool collision = IsCollision(destInv, movingItem, newPosition[0], newPosition[1]);
                 if (collision)
                 {
@@ -55,30 +73,33 @@ namespace GridInventory.Inventory
                         player.SetInventory(sourceInv);
                         break;
                     case Type.VehicleInventory:
-                        Vehicle veh = NAPI.Pools.GetAllVehicles().FirstOrDefault(x => x.Found() && x.Position.IsInRange(player.Position, 3f));
-                        veh?.SetInventory(sourceInv);
+                        Vehicle vehSrc = NAPI.Pools.GetAllVehicles()
+                            .FirstOrDefault(x => x.Found() && x.Position.IsInRange(player.Position, 3f));
+                        vehSrc?.SetInventory(sourceInv);
                         break;
                     case Type.PedInventory:
-                        Ped ped = NAPI.Pools.GetAllPeds().FirstOrDefault(x => x.Found() && x.Position.IsInRange(player.Position, 3f));
-                        ped?.SetInventory(sourceInv);
+                        Ped pedSrc = NAPI.Pools.GetAllPeds()
+                            .FirstOrDefault(x => x.Found() && x.Position.IsInRange(player.Position, 3f));
+                        pedSrc?.SetInventory(sourceInv);
                         break;
                 }
-                
+
                 switch (destInv.Type)
                 {
                     case Type.PlayerInventory:
                         player.SetInventory(destInv);
                         break;
                     case Type.VehicleInventory:
-                        Vehicle veh = NAPI.Pools.GetAllVehicles().FirstOrDefault(x => x.Found() && x.Position.IsInRange(player.Position, 3f));
-                        veh?.SetInventory(destInv);
+                        Vehicle vehDst = NAPI.Pools.GetAllVehicles()
+                            .FirstOrDefault(x => x.Found() && x.Position.IsInRange(player.Position, 3f));
+                        vehDst?.SetInventory(destInv);
                         break;
                     case Type.PedInventory:
-                        Ped ped = NAPI.Pools.GetAllPeds().FirstOrDefault(x => x.Found() && x.Position.IsInRange(player.Position, 3f));
-                        ped?.SetInventory(destInv);
+                        Ped pedDst = NAPI.Pools.GetAllPeds()
+                            .FirstOrDefault(x => x.Found() && x.Position.IsInRange(player.Position, 3f));
+                        pedDst?.SetInventory(destInv);
                         break;
                 }
-
             }
             catch (Exception ex)
             {
