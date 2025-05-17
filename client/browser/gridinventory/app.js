@@ -199,9 +199,10 @@ $(document).on('mouseup', function(e) {
         const gridY = Math.round((e.clientY - rect.top - offsetY) / inv.cellSize);
         const { free } = isSpaceFree(i, gridX, gridY, draggedItem.width, draggedItem.height, draggedItem);
         if (free &&
-            e.clientX >= rect.left && e.clientX <= rect.right &&
-            e.clientY >= rect.top && e.clientY <= rect.bottom &&
-            inv.currentWeight + draggedItem.weight <= inv.maxWeight) {
+                e.clientX >= rect.left && e.clientX <= rect.right &&
+                e.clientY >= rect.top && e.clientY <= rect.bottom &&
+                (sourceInvIdx === i ? inv.currentWeight : inv.currentWeight + draggedItem.weight) 
+            <= inv.maxWeight) {
 
             inventories[sourceInvIdx].items = inventories[sourceInvIdx].items.filter(item => item.instanceId !== draggedItem.instanceId);
             inventories[sourceInvIdx].currentWeight -= draggedItem.weight;
